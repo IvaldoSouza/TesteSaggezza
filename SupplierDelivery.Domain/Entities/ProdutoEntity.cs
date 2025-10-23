@@ -38,7 +38,7 @@ namespace SupplierDelivery.Domain.Entities
         public DateTime DataInclusao { get; private set; } = DateTime.UtcNow;
         public string UsuarioAtualizacao { get; private set; }
         public string UsuarioInclusao { get; private set; }
-        //public ICollection<ItemOrdemEntity> Itens { get; set; } = new List<ItemOrdemEntity>();
+        public ICollection<EntregaEntity> Entregas { get; private set; } = new List<EntregaEntity>();
 
         private void ValidateDomain(string nome, string? descricao, decimal? preco, int quantidadeEstoque, string? marca, string? codigoBarras,
             DateTime dataAtualizacao, DateTime dataInclusao, string usuarioAtualizacao, string usuarioInclusao)

@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SupplierDelivery.Application\SupplierDelivery.Application.csproj" />
+    <ProjectReference Include="..\SupplierDelivery.Domain\SupplierDelivery.Domain.csproj" />
+    <ProjectReference Include="..\SupplierDelivery.Infra.Data\SupplierDelivery.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>

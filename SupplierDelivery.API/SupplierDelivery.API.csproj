@@ -15,4 +15,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SupplierDelivery.Infra.IoC\SupplierDelivery.Infra.IoC.csproj" />
+  </ItemGroup>
+
 </Project>
