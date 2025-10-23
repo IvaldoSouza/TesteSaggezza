@@ -1,3 +1,4 @@
+using AuthService.Domain.Account;
 using AuthService.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,10 +21,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+
 app.UseHttpsRedirection();
+
+SeedUserRoles(app);
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+void SeedUserRoles(IApplicationBuilder app)
+{
+    using (var serviceScope = app.ApplicationServices.CreateScope())
+    {
+        var seed = serviceScope.ServiceProvider.GetRequiredService<ISeedUserRoleInitial>();
+        seed.SeedRoles();
+        seed.SeedUsers();
+    }
+}

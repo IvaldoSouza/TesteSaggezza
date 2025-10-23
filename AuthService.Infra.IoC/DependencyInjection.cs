@@ -1,4 +1,5 @@
-﻿using AuthService.Infra.Data.Context;
+﻿using AuthService.Domain.Account;
+using AuthService.Infra.Data.Context;
 using AuthService.Infra.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,35 +20,9 @@ namespace AuthService.Infra.IoC
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.ConfigureApplicationCookie(option =>
-            //    option.AccessDeniedPath = "/Account/Login");
-
-            //services.AddControllers()
-            //    .AddJsonOptions(options =>
-            //    {
-            //        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            //    });
-
-            //services.AddScoped<UserManager<ApplicationUser>>();
-            //services.AddScoped<RoleManager<IdentityRole>>();
-            //services.AddScoped<IAuthenticate, AuthenticateService>();
-            //services.AddScoped<AuthenticateService>();
-            //services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-
-            //services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
-
-            //services.AddMediatR(cfg =>
-            //{
-            //    cfg.RegisterServicesFromAssemblies(
-            //        typeof(ProdutoCreateCommandHandler).Assembly
-            //    );
-            //});
-
-            //var myhandlers = AppDomain.CurrentDomain.Load("OptiControl.Application");
-            //services.AddMediatR(cfg =>
-            //{
-            //    cfg.RegisterServicesFromAssembly(myhandlers);
-            //});
+            services.AddScoped<IAuthenticate, AuthenticateService>();
+            services.AddScoped<AuthenticateService>();
+            services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
             return services;
         }
