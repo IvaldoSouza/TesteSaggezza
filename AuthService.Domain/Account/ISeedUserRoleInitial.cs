@@ -1,8 +1,6 @@
 ﻿namespace AuthService.Domain.Account
 {
-    public interface ISeedUserRoleInitial
+    public interface ISeedUserRoleInitial : ISeedUsers, ISeedRoles
     {
-        void SeedUsers();
-        void SeedRoles();
     }
 }
