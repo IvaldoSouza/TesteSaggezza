@@ -2,6 +2,6 @@
 {
     public interface IRegisterUser
     {
-        Task<bool> RegisterUser(string email, string password);
+        Task<bool> RegisterUser(string userName, string phoneNumber, string email, string password);
     }
 }

@@ -17,17 +17,27 @@ namespace AuthService.Infra.Data.Identity
 
         public async Task<bool> Authenticate(string email, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return false;
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, lockoutOnFailure: false);
 
             return result.Succeeded;
         }
 
-        public async Task<bool> RegisterUser(string email, string password)
+        public async Task<bool> RegisterUser(string userName, string phoneNumber, string email, string password)
         {
+            var existingUser = await _userManager.FindByEmailAsync(email);
+
+            if (existingUser != null)
+                return false;
+
             var applicationUser = new ApplicationUser()
             {
-                UserName = email,
+                UserName = userName ?? email,
                 Email = email,
+                PhoneNumber = phoneNumber
             };
 
             var result = await _userManager.CreateAsync(applicationUser, password);

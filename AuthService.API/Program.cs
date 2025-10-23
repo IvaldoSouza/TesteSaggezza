@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddInfrastructureJWT(builder.Configuration);
+
+builder.Services.AddInfrastructureSwagger();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -21,13 +25,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+app.UseRouting();
 
 app.UseHttpsRedirection();
 
-SeedUserRoles(app);
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+SeedUserRoles(app);
 
 app.MapControllers();
 

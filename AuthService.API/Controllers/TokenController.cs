@@ -4,11 +4,16 @@ using AuthService.Infra.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace AuthService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TokenController : ControllerBase
     {
         private readonly IAuthenticate _authentication;
@@ -25,11 +30,11 @@ namespace AuthService.API.Controllers
         }
 
         [HttpPost("CreateUser")]
-        [ApiExplorerSettings(IgnoreApi = false)]
+        //[ApiExplorerSettings(IgnoreApi = false)]
         [Authorize]
-        public async Task<ActionResult> CreateUser([FromBody] LoginDTO userInfo)
+        public async Task<ActionResult> CreateUser([FromBody] LoginCreateDTO userInfo)
         {
-            var result = await _authentication.RegisterUser(userInfo.Email, userInfo.Password);
+            var result = await _authentication.RegisterUser(userInfo.UserName, userInfo.PhoneNumber, userInfo.Email, userInfo.Password);
 
             if (result)
             {
@@ -43,6 +48,7 @@ namespace AuthService.API.Controllers
         }
 
         [AllowAnonymous]
+        //[Authorize]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserTokenDTO>> Login([FromBody] LoginDTO userInfo)
         {
@@ -50,13 +56,62 @@ namespace AuthService.API.Controllers
 
             if (result)
             {
-                return Ok($"User {userInfo.Email} login successfully");
+                return await GenerateToken(userInfo);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
                 return BadRequest(ModelState);
             }
+        }
+
+        private async Task<UserTokenDTO> GenerateToken(LoginDTO userInfo)
+        {
+            var user = await _userManager.FindByEmailAsync(userInfo.Email);
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            //declaração do usuário
+            var claims = new List<Claim>
+            {
+                new Claim("email", user.Email ?? string.Empty),
+                new Claim("userName", user?.UserName ?? string.Empty),
+                new Claim("phone", user?.PhoneNumber ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim("role", role));
+            }
+
+            //gerar chave privada para assinar o token
+            var privateKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+
+            //gerar a assinatura digital
+            var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
+
+            //definir o tempo de expiração
+            var expiration = DateTime.UtcNow.AddMinutes(10);
+
+            //gerar o token
+            JwtSecurityToken token = new JwtSecurityToken(
+                //emissor
+                issuer: _configuration["Jwt:Issuer"],
+                //audiencia
+                audience: _configuration["Jwt:Audience"],
+                //claims
+                claims: claims,
+                //data de expiração
+                expires: expiration,
+                //assinatura digital
+                signingCredentials: credentials
+             );
+
+            return new UserTokenDTO()
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = expiration
+            };
         }
     }
 }
