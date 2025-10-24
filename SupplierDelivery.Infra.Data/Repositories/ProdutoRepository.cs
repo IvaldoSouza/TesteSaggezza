@@ -5,7 +5,7 @@ using SupplierDelivery.Infra.Data.Context;
 
 namespace SupplierDelivery.Infra.Data.Repositories
 {
-    internal class ProdutoRepository : IProdutoRepository
+    public class ProdutoRepository : IProdutoRepository
     {
         ApplicationDbContext _context;
 

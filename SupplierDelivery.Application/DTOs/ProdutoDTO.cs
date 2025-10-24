@@ -35,6 +35,6 @@ namespace SupplierDelivery.Application.DTOs
         public DateTime DataInclusao { get; set; } = DateTime.UtcNow;
         public string UsuarioAtualizacao { get; set; } = null!;
         public string UsuarioInclusao { get; set; } = null!;
-        public ICollection<EntregaEntity> Entregas { get; private set; } = new List<EntregaEntity>();
+        public ICollection<EntregaDTO> Entregas { get; private set; } = new List<EntregaDTO>();
     }
 }
