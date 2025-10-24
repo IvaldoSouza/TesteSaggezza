@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SupplierDelivery.Application\SupplierDelivery.Application.csproj" />
+    <ProjectReference Include="..\SupplierDelivery.Domain\SupplierDelivery.Domain.csproj" />
+    <ProjectReference Include="..\SupplierDelivery.Infra.Data\SupplierDelivery.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>
