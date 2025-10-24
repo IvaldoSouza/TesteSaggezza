@@ -1,5 +1,4 @@
 ﻿using SupplierDelivery.Domain.Validator;
-using System.Text.RegularExpressions;
 
 namespace SupplierDelivery.Domain.Entities
 {
@@ -7,19 +6,22 @@ namespace SupplierDelivery.Domain.Entities
     {
         private FornecedorEntity() { }
 
-        public FornecedorEntity(string razaoSocial, string nomeFantasia, string cnpj, string telefone, string email, string endereco)
+        public FornecedorEntity(string razaoSocial, string nomeFantasia, string cnpj, string telefone, string email, string endereco, DateTime dataAtualizacao, DateTime dataInclusao, string usuarioAtualizacao, string usuarioInclusao)
         {
-            if (string.IsNullOrWhiteSpace(razaoSocial))
-                throw new ArgumentException("A razão social é obrigatória.");
+            //if (string.IsNullOrWhiteSpace(razaoSocial))
+            //    throw new ArgumentException("A razão social é obrigatória.");
 
-            if (string.IsNullOrWhiteSpace(cnpj))
-                throw new ArgumentException("O CNPJ é obrigatório.");
+            //if (string.IsNullOrWhiteSpace(cnpj))
+            //    throw new ArgumentException("O CNPJ é obrigatório.");
 
-            RazaoSocial = razaoSocial;
-            NomeFantasia = nomeFantasia;
-            Cnpj = cnpj;
-            Telefone = telefone;
-            Email = email;
+            ValidateDomain(razaoSocial, nomeFantasia, cnpj, telefone, email, endereco,
+            dataAtualizacao, dataInclusao, usuarioAtualizacao, usuarioInclusao);
+
+            //RazaoSocial = razaoSocial;
+            //NomeFantasia = nomeFantasia;
+            //Cnpj = cnpj;
+            //Telefone = telefone;
+            //Email = email;
         }
 
         public Guid Id { get; private set; } = Guid.NewGuid();
@@ -42,9 +44,9 @@ namespace SupplierDelivery.Domain.Entities
             DomainExceptionValidation.When(string.IsNullOrEmpty(razaoSocial), "Razao Social inválido. Razao Social é obrigatório.");
             DomainExceptionValidation.When(string.IsNullOrEmpty(nomeFantasia), "Nome inválido. Nome é obrigatório.");
             DomainExceptionValidation.When(nomeFantasia.Length < 3, "Nome inválido. Mínimo de 3 caracteres para nome da Razao Social.");
-            DomainExceptionValidation.When(string.IsNullOrEmpty(cnpj), "CNPJ inválido. CNPJ é obrigatório.");
-            DomainExceptionValidation.When(!Regex.IsMatch(cnpj, @"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$"), "CNPJ inválido. Formato esperado: 00.000.000/0000-00.");
-            DomainExceptionValidation.When(string.IsNullOrEmpty(telefone), "Telefone inválido. Telefone é obrigatório.");
+            //DomainExceptionValidation.When(string.IsNullOrEmpty(cnpj), "CNPJ inválido. CNPJ é obrigatório.");
+            //DomainExceptionValidation.When(!Regex.IsMatch(cnpj, @"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$"), "CNPJ inválido. Formato esperado: 00.000.000/0000-00.");
+            //DomainExceptionValidation.When(string.IsNullOrEmpty(telefone), "Telefone inválido. Telefone é obrigatório.");
 
             RazaoSocial = razaoSocial;
             NomeFantasia = nomeFantasia;

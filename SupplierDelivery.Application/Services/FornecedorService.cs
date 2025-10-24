@@ -20,10 +20,10 @@ namespace SupplierDelivery.Application.Services
             await _fornecedorRepository.CreateAsync(entity);
         }
 
-        public async Task<IEnumerable<FornecedorDTO>> GetAllAsync()
+        public async Task<IEnumerable<FornecedorQueryDTO>> GetAllAsync()
         {
             var entity = await _fornecedorRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<FornecedorDTO>>(entity);
+            return _mapper.Map<IEnumerable<FornecedorQueryDTO>>(entity);
         }
     }
 }

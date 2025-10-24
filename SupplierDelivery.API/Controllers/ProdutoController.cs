@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SupplierDelivery.Application.DTOs;
 using SupplierDelivery.Application.Interfaces;
 
@@ -6,6 +7,7 @@ namespace SupplierDelivery.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
@@ -16,7 +18,7 @@ namespace SupplierDelivery.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProdutoQueryDTO>>> GetAll()
         {
             var produto = await _produtoService.GetAllAsync();
 

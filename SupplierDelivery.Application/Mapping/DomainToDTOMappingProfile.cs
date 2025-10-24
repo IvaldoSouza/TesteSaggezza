@@ -11,6 +11,9 @@ namespace SupplierDelivery.Application.Mapping
             CreateMap<FornecedorEntity, FornecedorDTO>().ReverseMap();
             CreateMap<ProdutoEntity, ProdutoDTO>().ReverseMap();
             CreateMap<EntregaEntity, EntregaDTO>().ReverseMap();
+            CreateMap<FornecedorEntity, FornecedorQueryDTO>().ReverseMap();
+            CreateMap<ProdutoEntity, ProdutoQueryDTO>().ReverseMap();
+            CreateMap<EntregaEntity, EntregaQueryDTO>().ReverseMap();
         }
     }
 }

@@ -27,10 +27,12 @@ namespace SupplierDelivery.Infra.IoC
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+            services.AddScoped<IEntregaRepository, EntregaRepository>();
 
 
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IFornecedorService, FornecedorService>();
+            services.AddScoped<IEntregaService, EntregaService>();
 
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));

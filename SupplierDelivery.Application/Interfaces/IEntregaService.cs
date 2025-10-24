@@ -2,7 +2,7 @@
 
 namespace SupplierDelivery.Application.Interfaces
 {
-    public interface IFornecedorService : IViewService<FornecedorQueryDTO>, ICreateService<FornecedorDTO>
+    public interface IEntregaService : IViewService<EntregaQueryDTO>, ICreateService<EntregaDTO>
     {
     }
 }

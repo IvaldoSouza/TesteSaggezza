@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using MediatR;
 using SupplierDelivery.Application.DTOs;
 using SupplierDelivery.Application.Interfaces;
 using SupplierDelivery.Domain.Entities;
 using SupplierDelivery.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SupplierDelivery.Application.Services
 {
@@ -29,10 +23,10 @@ namespace SupplierDelivery.Application.Services
             await _produtoRepository.CreateAsync(entity);
         }
 
-        public async Task<IEnumerable<ProdutoDTO>> GetAllAsync()
+        public async Task<IEnumerable<ProdutoQueryDTO>> GetAllAsync()
         {
             var entity = await _produtoRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<ProdutoDTO>>(entity);
+            return _mapper.Map<IEnumerable<ProdutoQueryDTO>>(entity);
         }
     }
 }
