@@ -13,7 +13,6 @@ namespace AuthService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class TokenController : ControllerBase
     {
         private readonly IAuthenticate _authentication;
@@ -30,8 +29,6 @@ namespace AuthService.API.Controllers
         }
 
         [HttpPost("CreateUser")]
-        //[ApiExplorerSettings(IgnoreApi = false)]
-        [Authorize]
         public async Task<ActionResult> CreateUser([FromBody] LoginCreateDTO userInfo)
         {
             var result = await _authentication.RegisterUser(userInfo.UserName, userInfo.PhoneNumber, userInfo.Email, userInfo.Password);
@@ -48,7 +45,6 @@ namespace AuthService.API.Controllers
         }
 
         [AllowAnonymous]
-        //[Authorize]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserTokenDTO>> Login([FromBody] LoginDTO userInfo)
         {
@@ -91,7 +87,7 @@ namespace AuthService.API.Controllers
             var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
 
             //definir o tempo de expiração
-            var expiration = DateTime.UtcNow.AddMinutes(10);
+            var expiration = DateTime.UtcNow.AddMinutes(100);
 
             //gerar o token
             JwtSecurityToken token = new JwtSecurityToken(
